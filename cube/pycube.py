@@ -73,5 +73,5 @@ class Evaluator(object):
             params['step'] = step
 
         r = requests.get(url, params=params)
-        return r.status_code == 200 and r.text or None
+        return r.status_code == 200 and json.loads(r.text) or None
 

@@ -13,7 +13,7 @@ evaluator = None
 def setup():
     print "SETUP!"
     global collector, evaluator
-    collector = pycube.Collector("localhost", 21080)
+    collector = pycube.Collector("localhost", 1080)
     evaluator = pycube.Evaluator("localhost", 1081)
 
 def teardown():
@@ -22,7 +22,7 @@ def teardown():
 def test_basic():
     print "I RAN!"
     demos = evaluator.event("demo", stop=datetime.datetime.now().isoformat())
-    n_demos = len(eval(demos))
+    n_demos = len(demos)
 
     data = {'status':200}
     ce = pycube.CubeEvent("demo", data, datetime.datetime.now().isoformat())
@@ -31,8 +31,7 @@ def test_basic():
     assert status
     
     demos = evaluator.event("demo", stop=datetime.datetime.now().isoformat())
-    assert len(eval(demos)) == n_demos + 1
+    assert len(demos) == n_demos + 1
 
     stats = evaluator.metric("sum(demo.eq(status,200))", stop=datetime.datetime.now().isoformat(), step = pycube.CUBE_DAY, limit = 10)
-    assert len(eval(stats)) == 11
-
+    assert len(stats) == 11
